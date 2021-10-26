@@ -1,0 +1,106 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW DATABASES
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 66_assign2db       |
+| flippedthree       |
+| mycompany          |
+| myfirstdb          |
+| mysql              |
+| performance_schema |
+| vetoffice          |
++--------------------+
+8 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS 66_assign2db
+--------------
+
+Query OK, 5 rows affected (0.22 sec)
+
+--------------
+CREATE DATABASE 66_assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.01 sec)
+
+--------------
+CREATE TABLE Passenger(PassengerID int NOT NULL,
+                       FirstName VARCHAR (20) NOT NULL,
+                       LastName VARCHAR (20) NOT NULL,
+                       PRIMARY KEY (PassengerID))
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE Bus(LicenceID VARCHAR (7) NOT NULL,
+                 Capacity int NOT NULL,
+                 PRIMARY KEY (LicenceID))
+--------------
+
+Query OK, 0 rows affected (0.19 sec)
+
+--------------
+CREATE TABLE Trip(TripID int NOT NULL,
+                  TripName VARCHAR (50) NOT NULL,
+                  StartDate date NOT NULL,
+                  EndDate date NOT NULL,
+                  CountryName VARCHAR (30) NOT NULL,
+                  LicenceID VARCHAR (7) NOT NULL,
+                  PRIMARY KEY (TripID),
+                  FOREIGN KEY (LicenceID) REFERENCES Bus (LicenceID))
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+CREATE TABLE Passport(PassportID VARCHAR(4) NOT NULL,
+                      Country VARCHAR(30) NOT NULL,
+                      ExpiryDate date NOT NULL,
+                      BirthDate date NOT NULL,
+                      PassengerID int NOT NULL,
+                      PRIMARY KEY (PassportID),
+                      FOREIGN KEY (PassengerID) REFERENCES Passenger (PassengerID) ON DELETE CASCADE)
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE Books(TripID int NOT NULL,
+                   PassengerID int NOT NULL,
+                   Price float NOT NULL,
+                   PRIMARY KEY (TripID, PassengerID),
+                   FOREIGN KEY (TripID) REFERENCES Trip (TripID),
+                   FOREIGN KEY (PassengerID) REFERENCES Passport (PassengerID) ON DELETE CASCADE)
+--------------
+
+Query OK, 0 rows affected (0.20 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++------------------------+
+| Tables_in_66_assign2db |
++------------------------+
+| Books                  |
+| Bus                    |
+| Passenger              |
+| Passport               |
+| Trip                   |
++------------------------+
+5 rows in set (0.00 sec)
+
+Bye
